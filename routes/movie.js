@@ -4,7 +4,16 @@ const router = express.Router();
 // Models
 const Movie = require('../models/Movie');
 
-/* GET users listing. */
+router.get('/', (req, res) => {
+  const promise = Movie.find({});
+  promise.then((data) => {
+    res.json(data);
+  }).catch((err) => {
+    res.json(err);
+  });
+});
+
+
 router.post('/', function(req, res, next) {
   // const { title, imdb_score, category, country, year } = req.body;
   // const movie = new Movie({
