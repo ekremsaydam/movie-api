@@ -89,11 +89,51 @@ router.get('/:director_id', (req, res) => {
   ]);
 
   promise.then((data) => {
+    console.log(data);
+    if (data.length === 0 || !data) {
+      res.json({ message: 'The director was not found', code: 99 });
+    } else {
+      res.json(data);
+    }
+  }).catch((err) => {
+    res.json(err);
+  });
+
+});
+
+// yonetmen guncelleme
+
+router.put('/:director_id', (req, res) => {
+  const promise = Director.findByIdAndUpdate(
+    req.params.director_id,
+    req.body, {
+      new: true
+    }
+  );
+
+  promise.then((data) => {
     res.json(data);
   }).catch((err) => {
     res.json(err);
-  })
+  });
+});
 
+// yönetmen silme
+
+router.delete('/:director_id', (req, res) => {
+  const promise = Director.findByIdAndRemove(
+    req.params.director_id
+  );
+
+  promise.then((director) => {
+    if (!director) {
+      res.json({ message: 'The director was not found', code: 99 });
+    } else {
+      res.json({ status: 1 });
+    }
+  }).catch((err) => {
+    res.json(err);
+  });
 });
 
 module.exports = router;
