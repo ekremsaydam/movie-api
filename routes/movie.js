@@ -92,7 +92,7 @@ router.put('/:movie_id', (req, res, next) => {
     }
   }).catch((err) => {
     res.json(err);
-  })
+  });
 });
 
 // Movie List with ID
@@ -112,7 +112,7 @@ router.get('/:movie_id', (req, res, next) => {
 
 
 
-router.post('/', function(req, res, next) {
+router.post('/', function(req, res) {
   // const { title, imdb_score, category, country, year } = req.body;
   // const movie = new Movie({
   //   title: title,
