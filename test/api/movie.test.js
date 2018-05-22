@@ -64,7 +64,7 @@ describe('> /api/movies TEST', () => {
   });
 
   // GET Movie:directory_id
-  describe('> /GET:director_id movie', () => {
+  describe('> /GET/:movie_id movie', () => {
     it('it should GET a movie by the given id', (done) => {
       chai.request(server)
         .get('/api/movies/' + movieId)
@@ -79,6 +79,48 @@ describe('> /api/movies TEST', () => {
           res.body.should.have.property('year');
           res.body.should.have.property('imdb_score');
           res.body.should.have.property('_id').eql(movieId);
+          done();
+        });
+    });
+  });
+
+  describe('> /PUT/:movie_id', () => {
+
+    it('it should PUT a movie given by id', (done) => {
+      const movie = {
+        title: 'Update Title',
+        director_id: '5b032548db1e6f27d896d731',
+        category: 'Update Category',
+        country: 'Fransa',
+        year: 1980,
+        imdb_score: 9.9
+      };
+      chai.request(server)
+        .put('/api/movies/' + movieId)
+        .set('x-access-token', token)
+        .send(movie)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('title').eql(movie.title);
+          res.body.should.have.property('director_id').eql(movie.director_id);
+          res.body.should.have.property('category').eql(movie.category);
+          res.body.should.have.property('country').eql(movie.country);
+          res.body.should.have.property('year').eql(movie.year);
+          res.body.should.have.property('imdb_score').eql(movie.imdb_score);
+          done();
+        });
+    });
+  });
+
+
+  describe('> /DELETE/:movie_id movie', () => {
+    it('it should DELETE a movie given by id', (done) => {
+      chai.request(server)
+        .del('/api/movies/' + movieId)
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.property('status').eql(1);
           done();
         });
     });
