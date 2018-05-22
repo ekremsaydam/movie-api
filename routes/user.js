@@ -29,47 +29,6 @@ router.post('/register', (req, res) => {
   });
 });
 
-
-// router.post('/auth', (req, res) => {
-//   const { username, password } = req.body;
-
-//   User.findOne({
-//     username
-//   }).then((user) => {
-//     if (!user) {
-//       res.json({ message: 'Authentication failed, user not found', status: false });
-//     } else {
-//       bcrypt.compare(password, user.password).then((result) => {
-//         if (!result) {
-//           res.json({
-//             status: false,
-//             message: 'Authentication failed, wrong password'
-//           });
-//         } else {
-//           const payload = {
-//             username
-//           };
-//           const token = jwt.sign(
-//             payload,
-//             req.app.get('api_secret_key'), {
-//               expiresIn: 720 // 12 saat
-//             });
-
-//           res.json({
-//             status: true,
-//             token
-//           });
-//         }
-//       });
-//     }
-//   }).catch((err) => {
-//     res.json(err);
-//   });
-
-
-
-// });
-
 router.post('/auth', (req, res) => {
   const { username, password } = req.body;
   User.findOne({
@@ -96,6 +55,10 @@ router.post('/auth', (req, res) => {
   }).catch((err) => {
     res.json(err);
   });
+});
+
+router.get('/', function(req, res, next) {
+  res.render('index', { title: 'Express' });
 });
 
 module.exports = router;
