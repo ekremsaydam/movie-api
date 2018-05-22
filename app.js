@@ -4,13 +4,24 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
+const app = express();
+
+// db connection
 const db = require('./helper/db')();
 
-const indexRouter = require('./routes/index');
-const movieRouter = require('./routes/movie');
-const directorRouter = require('./routes/director');
+// Config
+const config = require('./config');
+app.set('api_secret_key', config.api_secret_key);
 
-const app = express();
+// Middleware
+
+const verifyToken = require('./middleware/verify-token');
+
+// view engine setup
+// const indexRouter = require('./routes/index');
+const movieRouter = require('./routes/movie');
+const userRouter = require('./routes/user');
+const directorRouter = require('./routes/director');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -22,7 +33,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
+// app.use('/', indexRouter);
+app.use('/', userRouter);
+app.use('/api', verifyToken);
 app.use('/api/movies', movieRouter);
 app.use('/api/directors', directorRouter);
 
@@ -32,7 +45,7 @@ app.use(function(req, res, next) {
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function(err, req, res) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
