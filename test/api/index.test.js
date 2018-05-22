@@ -16,7 +16,4 @@ describe('Node Server', () => {
         done();
       });
   });
-  it('(GET /) movie endpoint', (done) => {
-    done();
-  });
 });
