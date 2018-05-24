@@ -1,7 +1,7 @@
 [![Build
 Status](https://travis-ci.org/ekremsaydam/movie-api.svg)](https://travis-ci.org/ekremsaydam/movie-api)
 
-# Movies
+# Movies 
 
 | Route                                     | HTTP Verb | POST body                                                                                         | Description                   |
 | ----------------------------------------- | --------- | ------------------------------------------------------------------------------------------------- | ----------------------------- |
